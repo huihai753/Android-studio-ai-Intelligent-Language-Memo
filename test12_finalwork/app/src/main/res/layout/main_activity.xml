@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".activity.MainActivity">
+
+    <!-- 主内容区 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 右上角菜单按钮 - 苹果风格 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/menu_button_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#F2F2F7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <Button
+                android:id="@+id/button_test"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="菜单"
+                android:textColor="#007AFF"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium"
+                android:background="@android:color/transparent"
+                android:letterSpacing="0.02" />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- RecyclerView 显示备忘录列表 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingBottom="80dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/menu_button_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/note_item" />
+
+        <!-- 空视图 -->
+        <TextView
+            android:id="@+id/text_view_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_notes"
+            android:textColor="@android:color/white"
+            android:background="#80000000"
+            android:padding="20dp"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.02"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/menu_button_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- AI助手按钮，底部中间 -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_ai_assistant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="AI助手"
+            android:src="@drawable/ic_mic_enhanced"
+            app:backgroundTint="@color/pressed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 添加备忘录悬浮按钮 -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_add_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/add_note"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/pressed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- 苹果风格侧边栏 -->
+    <LinearLayout
+        android:id="@+id/side_menu"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_gravity="start">
+
+        <!-- 顶部状态栏占位 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#FFFFFF" />
+
+        <!-- 头部区域 - 苹果风格 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp">
+
+            <!-- 头像容器 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#E5E5EA">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="📝"
+                    android:textSize="36sp"
+                    android:gravity="center"
+                    android:background="#E5E5EA" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- 用户名 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="我的备忘录"
+                android:textColor="#1C1C1E"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.02"
+                android:layout_marginTop="16dp" />
+
+            <!-- 描述文字 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="智能管理，高效生活"
+                android:textColor="#8E8E93"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.01"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <!-- 分隔线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#C6C6C8"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp" />
+
+        <!-- 菜单项容器 -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <!-- 功能区域 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#FFFFFF">
+
+                    <!-- 查看数据库 -->
+                    <LinearLayout
+                        android:id="@+id/debug_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:text="📊"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:background="#007AFF"
+                            android:layout_marginEnd="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="查看数据库"
+                                android:textColor="#1C1C1E"
+                                android:textSize="17sp"
+                                android:fontFamily="sans-serif" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="查看所有存储的备忘录"
+                                android:textColor="#8E8E93"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#C6C6C8"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-light" />
+
+                    </LinearLayout>
+
+                    <!-- 分隔线 -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#C6C6C8"
+                        android:layout_marginStart="68dp" />
+
+                    <!-- AI聊天助手 -->
+                    <LinearLayout
+                        android:id="@+id/button_chat"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:text="💬"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:background="#34C759"
+                            android:layout_marginEnd="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="AI聊天助手"
+                                android:textColor="#1C1C1E"
+                                android:textSize="17sp"
+                                android:fontFamily="sans-serif" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="智能对话，获取帮助"
+                                android:textColor="#8E8E93"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#C6C6C8"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-light" />
+
+                    </LinearLayout>
+
+                    <!-- 分隔线 -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#C6C6C8"
+                        android:layout_marginStart="68dp" />
+
+                    <!-- TTS语音合成测试 -->
+                    <LinearLayout
+                        android:id="@+id/button_tts_test"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:text="🎵"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:background="#AF52DE"
+                            android:layout_marginEnd="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TTS语音合成"
+                                android:textColor="#1C1C1E"
+                                android:textSize="17sp"
+                                android:fontFamily="sans-serif" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="文字转语音，测试合成"
+                                android:textColor="#8E8E93"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#C6C6C8"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-light" />
+
+                    </LinearLayout>
+
+                    <!-- 分隔线 -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#C6C6C8"
+                        android:layout_marginStart="68dp" />
+
+                    <!-- 语音识别 -->
+                    <LinearLayout
+                        android:id="@+id/button_speech"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:text="🎤"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:background="#FF9500"
+                            android:layout_marginEnd="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="语音识别"
+                                android:textColor="#1C1C1E"
+                                android:textSize="17sp"
+                                android:fontFamily="sans-serif" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="语音转文字，快速记录"
+                                android:textColor="#8E8E93"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#C6C6C8"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-light" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- 分组分隔 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:background="#F2F2F7" />
+
+                <!-- 数据管理区域 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#FFFFFF">
+
+                    <!-- 分组标题 -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="数据管理"
+                        android:textColor="#8E8E93"
+                        android:textSize="13sp"
+                        android:fontFamily="sans-serif"
+                        android:letterSpacing="0.02"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="8dp"
+                        android:textAllCaps="true" />
+
+                    <!-- 清空数据库 -->
+                    <LinearLayout
+                        android:id="@+id/button_clear_database"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:text="🗑️"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:background="#FF3B30"
+                            android:layout_marginEnd="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="清空数据库"
+                                android:textColor="#FF3B30"
+                                android:textSize="17sp"
+                                android:fontFamily="sans-serif" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="删除所有备忘录数据"
+                                android:textColor="#8E8E93"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#C6C6C8"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-light" />
+
+                    </LinearLayout>
+
+                    <!-- 分隔线 -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#C6C6C8"
+                        android:layout_marginStart="68dp" />
+
+                    <!-- 导出数据 -->
+                    <LinearLayout
+                        android:id="@+id/button_export_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:text="📤"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:background="#5AC8FA"
+                            android:layout_marginEnd="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="导出数据"
+                                android:textColor="#1C1C1E"
+                                android:textSize="17sp"
+                                android:fontFamily="sans-serif" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="备份所有备忘录"
+                                android:textColor="#8E8E93"
+                                android:textSize="13sp"
+                                android:fontFamily="sans-serif"
+                                android:layout_marginTop="2dp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#C6C6C8"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-light" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- 底部空间 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#F2F2F7" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <!-- 底部版权信息 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#F2F2F7"
+            android:paddingTop="16dp"
+            android:paddingBottom="32dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="备忘录 v1.0.0"
+                android:gravity="center"
+                android:textColor="#8E8E93"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.02" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="© 2025 智能生活助手"
+                android:gravity="center"
+                android:textColor="#C6C6C8"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.02"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
